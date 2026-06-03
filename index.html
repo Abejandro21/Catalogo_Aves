@@ -152,13 +152,13 @@
       <p class="nombre-cientifico" id="aveCientifico"></p>
 
       <div class="reproductor-capsula">
-        <div id="waveform" class="contenedor-onda"></div>
-        
         <button class="boton-play" id="playBtn">
           <svg id="playIcon" viewBox="0 0 24 24">
             <path d="M8 5v14l11-7z"/>
           </svg>
         </button>
+
+        <div id="waveform" class="contenedor-onda"></div>
       </div>
       <div class="copyright-audio">© <span id="copyrightAudioPersona"></span></div>
     </div>
@@ -166,7 +166,6 @@
 
   <script>
     // === 1. BASE DE DATOS DE AVES ===
-    // Añadidos los campos de autoría para foto y audio
     const baseDeDatos = {
       "chio": {
         "nombre": "Chío",
@@ -184,45 +183,45 @@
         "autorFoto": " Jay McGowan",
         "autorAudio": "David L. Ross, Jr."
       },
-      "ave3": {
-        "nombre": "Nombre Ave 3",
-        "cientifico": "Cientifico 3",
-        "foto": "img/foto3.jpg",
-        "audio": "audio/audio3.mp3",
-        "autorFoto": "Nombre Persona",
-        "autorAudio": "Nombre Persona"
+      "chonte": {
+        "nombre": "Chonte",
+        "cientifico": "Turdus grayi",
+        "foto": "img/Turdus grayi.jpeg",
+        "audio": "audio/Turdus grayi.mp3",
+        "autorFoto": "Josiah Verbrugge",
+        "autorAudio": "Andrew Spencer"
       },
-      "ave4": {
-        "nombre": "Nombre Ave 4",
-        "cientifico": "Cientifico 4",
-        "foto": "img/foto4.jpg",
-        "audio": "audio/audio4.mp3",
-        "autorFoto": "Nombre Persona",
-        "autorAudio": "Nombre Persona"
+      "tangara alas amarillas": {
+        "nombre": "Tangara alas amarillas",
+        "cientifico": "Thraupis abbas",
+        "foto": "img/Thraupis abbas.jpeg",
+        "audio": "audio/Thraupis abbas.mp3",
+        "autorFoto": "Chuck Gates",
+        "autorAudio": "	Richard E. Webster"
       },
-      "ave5": {
-        "nombre": "Nombre Ave 5",
-        "cientifico": "Cientifico 5",
-        "foto": "img/foto5.jpg",
-        "audio": "audio/audio5.mp3",
-        "autorFoto": "Nombre Persona",
-        "autorAudio": "Nombre Persona"
+      "tucancollarejo": {
+        "nombre": "Tucán collarejo",
+        "cientifico": "Pteroglossus torquatus",
+        "foto": "img/Pteroglossus torquatus.jpeg",
+        "audio": "audio/Pteroglossus torquatus.mp3",
+        "autorFoto": "Jeff Hapeman",
+        "autorAudio": "Paul A. Schwartz"
       },
-      "ave6": {
-        "nombre": "Nombre Ave 6",
-        "cientifico": "Cientifico 6",
-        "foto": "img/foto6.jpg",
-        "audio": "audio/audio6.mp3",
-        "autorFoto": "Nombre Persona",
-        "autorAudio": "Nombre Persona"
+      "cheje": {
+        "nombre": "Carpintero cheje",
+        "cientifico": "Melanerpes aurifrons",
+        "foto": "img/Melanerpes aurifrons.jpeg",
+        "audio": "audio/Melanerpes aurifrons.mp3",
+        "autorFoto": "Alejandro Valladares",
+        "autorAudio": "Arthur A. Allen"
       },
-      "ave7": {
-        "nombre": "Nombre Ave 7",
-        "cientifico": "Cientifico 7",
-        "foto": "img/foto7.jpg",
-        "audio": "audio/audio7.mp3",
-        "autorFoto": "Nombre Persona",
-        "autorAudio": "Nombre Persona"
+      "tirano": {
+        "nombre": "Tirano melancólico",
+        "cientifico": "Tyrannus melancholicus",
+        "foto": "img/Tyrannus melancholicus.jpeg",
+        "audio": "audio/Tyrannus melancholicus.mp3",
+        "autorFoto": "Daniel Irons",
+        "autorAudio": "Geoffrey A. Keller"
       },
       "ave8": {
         "nombre": "Nombre Ave 8",
@@ -277,7 +276,6 @@
       document.getElementById('aveCientifico').textContent = aveElegida.cientifico;
       document.getElementById('aveImagen').src = aveElegida.foto;
       
-      // Insertar los nombres de las personas en los elementos de copyright correspondientes
       document.getElementById('copyrightFotoPersona').textContent = aveElegida.autorFoto || "Desconocido";
       document.getElementById('copyrightAudioPersona').textContent = aveElegida.autorAudio || "Desconocido";
 
