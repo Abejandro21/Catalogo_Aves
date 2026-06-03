@@ -37,11 +37,40 @@
       border: 1px solid #e2e8f0;
     }
 
+    /* Contenedor relativo para posicionar el copyright sobre la foto */
+    .contenedor-foto {
+      position: relative;
+      width: 100%;
+      height: 260px;
+    }
+
     /* Imagen de portada del ave */
     .foto-cabecera {
       width: 100%;
-      height: 260px;
+      height: 100%;
       object-fit: cover;
+    }
+
+    /* Estilos para los textos de Copyright */
+    .copyright-foto {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #ffffff;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-family: sans-serif;
+      pointer-events: none; /* No interfiere con el diseño */
+    }
+
+    .copyright-audio {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 8px;
+      text-align: right;
+      padding-right: 8px;
     }
 
     /* Contenedor de la información */
@@ -113,7 +142,10 @@
 <body>
 
   <div class="tarjeta-ave">
-    <img class="foto-cabecera" id="aveImagen" src="" alt="Foto">
+    <div class="contenedor-foto">
+      <img class="foto-cabecera" id="aveImagen" src="" alt="Foto">
+      <div class="copyright-foto">© <span id="copyrightFotoPersona"></span></div>
+    </div>
 
     <div class="info-container">
       <h1 class="nombre-comun" id="aveNombre">Cargando...</h1>
@@ -128,94 +160,108 @@
           </svg>
         </button>
       </div>
+      <div class="copyright-audio">© <span id="copyrightAudioPersona"></span></div>
     </div>
   </div>
 
   <script>
     // === 1. BASE DE DATOS DE AVES ===
-    // Aquí registrarás cada ave nueva. 
-    // Usaremos rutas relativas para cargar fotos y audios guardados en la misma carpeta del proyecto.
+    // Añadidos los campos de autoría para foto y audio
     const baseDeDatos = {
       "chio": {
         "nombre": "Chío",
         "cientifico": "Myiozetetes similis",
         "foto": "img/Myiozetetes similis.jpeg", 
-        "audio": "audio/Myiozetetes similis.mp3" 
+        "audio": "audio/Myiozetetes similis.mp3",
+        "autorFoto": "Nathan Wall",
+        "autorAudio": "L. Irby Davis"
       },
       "ave2": {
-        "nombre": "Nombre Ave 2",
-        "cientifico": "Cientifico 2",
-        "foto": "img/foto2.jpg",
-        "audio": "audio/audio2.mp3"
+        "nombre": "Catalnica",
+        "cientifico": "Brotogeris jugularis",
+        "foto": "img/Brotogeris jugularis.jpeg",
+        "audio": "audio/Brotogeris jugularis.mp3",
+        "autorFoto": " Jay McGowan",
+        "autorAudio": "David L. Ross, Jr."
       },
       "ave3": {
         "nombre": "Nombre Ave 3",
         "cientifico": "Cientifico 3",
         "foto": "img/foto3.jpg",
-        "audio": "audio/audio3.mp3"
+        "audio": "audio/audio3.mp3",
+        "autorFoto": "Nombre Persona",
+        "autorAudio": "Nombre Persona"
       },
       "ave4": {
         "nombre": "Nombre Ave 4",
         "cientifico": "Cientifico 4",
         "foto": "img/foto4.jpg",
-        "audio": "audio/audio4.mp3"
+        "audio": "audio/audio4.mp3",
+        "autorFoto": "Nombre Persona",
+        "autorAudio": "Nombre Persona"
       },
       "ave5": {
         "nombre": "Nombre Ave 5",
         "cientifico": "Cientifico 5",
         "foto": "img/foto5.jpg",
-        "audio": "audio/audio5.mp3"
+        "audio": "audio/audio5.mp3",
+        "autorFoto": "Nombre Persona",
+        "autorAudio": "Nombre Persona"
       },
       "ave6": {
         "nombre": "Nombre Ave 6",
         "cientifico": "Cientifico 6",
         "foto": "img/foto6.jpg",
-        "audio": "audio/audio6.mp3"
+        "audio": "audio/audio6.mp3",
+        "autorFoto": "Nombre Persona",
+        "autorAudio": "Nombre Persona"
       },
       "ave7": {
         "nombre": "Nombre Ave 7",
         "cientifico": "Cientifico 7",
         "foto": "img/foto7.jpg",
-        "audio": "audio/audio7.mp3"
+        "audio": "audio/audio7.mp3",
+        "autorFoto": "Nombre Persona",
+        "autorAudio": "Nombre Persona"
       },
       "ave8": {
         "nombre": "Nombre Ave 8",
         "cientifico": "Cientifico 8",
         "foto": "img/foto8.jpg",
-        "audio": "audio/audio8.mp3"
+        "audio": "audio/audio8.mp3",
+        "autorFoto": "Nombre Persona",
+        "autorAudio": "Nombre Persona"
       },
       "ave9": {
         "nombre": "Nombre Ave 9",
         "cientifico": "Cientifico 9",
         "foto": "img/foto9.jpg",
-        "audio": "audio/audio9.mp3"
+        "audio": "audio/audio9.mp3",
+        "autorFoto": "Nombre Persona",
+        "autorAudio": "Nombre Persona"
       },
       "ave10": {
         "nombre": "Nombre Ave 10",
         "cientifico": "Cientifico 10",
         "foto": "img/foto10.jpg",
-        "audio": "audio/audio10.mp3"
+        "audio": "audio/audio10.mp3",
+        "autorFoto": "Nombre Persona",
+        "autorAudio": "Nombre Persona"
       }
     };
 
     // === 2. LEER LA URL Y PROTEGERLA ===
-    // Obtenemos qué ave quieren cargar revisando el enlace (ej: ?id=chio)
     const parametrosUrl = new URLSearchParams(window.location.search);
     let aveId = parametrosUrl.get('id');
 
-    // TRUCO: Si existe un ID en la URL, lo guardamos en memoria y lo borramos de la barra de direcciones
     if (aveId) {
       sessionStorage.setItem('aveGuardada', aveId);
-      // Esto borra el "?id=..." de la barra superior del navegador sin recargar la página
       window.history.replaceState({}, document.title, window.location.pathname);
     } else {
-      // Si borraron el ID pero ya habían entrado, lo recuperamos de la memoria
       aveId = sessionStorage.getItem('aveGuardada');
     }
 
-    // Si abres el archivo normal y no hay ningún ID válido en historial:
     if (!aveId || !baseDeDatos[aveId]) {
-      // Borramos la tarjeta y mostramos una pantalla limpia de "Acceso Denegado"
       document.body.innerHTML = `
         <div style="text-align:center; padding:40px; background:white; border-radius:20px; box-shadow:0 4px 20px rgba(0,0,0,0.06); border:1px solid #e2e8f0; max-width:300px;">
           <svg style="width:48px;height:48px;fill:#94a3b8;margin-bottom:16px;" viewBox="0 0 24 24"><path d="M4 8h16v13a1 1 0 01-1 1H5a1 1 0 01-1-1V8zm2 2v10h12V10H6zm3 2h6v2H9v-2zm-4-8h14v2H5V4z"/></svg>
@@ -224,13 +270,16 @@
         </div>
       `;
     } else {
-      // Si la URL tiene un ID correcto, procedemos a mostrar la tarjeta del ave
       const aveElegida = baseDeDatos[aveId];
 
       // === 3. LLENAR LA PLANTILLA CON LOS DATOS ===
       document.getElementById('aveNombre').textContent = aveElegida.nombre;
       document.getElementById('aveCientifico').textContent = aveElegida.cientifico;
       document.getElementById('aveImagen').src = aveElegida.foto;
+      
+      // Insertar los nombres de las personas en los elementos de copyright correspondientes
+      document.getElementById('copyrightFotoPersona').textContent = aveElegida.autorFoto || "Desconocido";
+      document.getElementById('copyrightAudioPersona').textContent = aveElegida.autorAudio || "Desconocido";
 
       // === 4. INICIALIZAR EL REPRODUCTOR DE ONDAS ===
       const wavesurfer = WaveSurfer.create({
@@ -253,15 +302,11 @@
         wavesurfer.playPause();
       });
 
-      // Cambia el ícono al reproducir
       wavesurfer.on('play', () => {
-        // Ícono de "Pause"
         playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       });
 
-      // Cambia el ícono al pausar
       wavesurfer.on('pause', () => {
-        // Ícono de "Play"
         playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
       });
     }
